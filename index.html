@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nest Control Panel</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --text-color: #f1f5f9;
+            --accent-color: #38bdf8;
+            --card-bg: #1e293b;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            margin: 0;
+            color: var(--accent-color);
+            font-size: 24px;
+        }
+        .status-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .status-label {
+            color: #94a3b8;
+        }
+        .status-value {
+            font-weight: bold;
+        }
+        .button-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+            max-width: 400px;
+        }
+        button {
+            background-color: var(--accent-color);
+            color: #000;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        .footer {
+            margin-top: auto;
+            color: #64748b;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🦉 Nest Control</h1>
+        <p>Dashboard de Asistente Jarvis</p>
+    </div>
+
+    <div class="status-card">
+        <div class="status-item">
+            <span class="status-label">Usuario:</span>
+            <span class="status-value" id="user-name">Néstor</span>
+        </div>
+        <div class="status-item">
+            <span class="status-label">Tokens Hoy:</span>
+            <span class="status-value" id="tokens-count">Cargando...</span>
+        </div>
+        <div class="status-item">
+            <span class="status-label">Sistema:</span>
+            <span class="status-value" style="color: #4ade80;">ONLINE</span>
+        </div>
+    </div>
+
+    <div class="button-grid">
+        <button onclick="sendAction('notion')">Ver Notion</button>
+        <button onclick="sendAction('weather')">Clima</button>
+        <button onclick="sendAction('voice')">Modo Voz</button>
+        <button onclick="sendAction('security')">Seguridad</button>
+    </div>
+
+    <div class="footer">
+        Nest Digital Familiar &copy; 2026
+    </div>
+
+    <script>
+        const webapp = window.Telegram.WebApp;
+        webapp.expand();
+
+        // Obtener nombre del usuario de Telegram
+        if (webapp.initDataUnsafe && webapp.initDataUnsafe.user) {
+            document.getElementById('user-name').innerText = webapp.initDataUnsafe.user.first_name;
+        }
+
+        function sendAction(action) {
+            webapp.sendData(JSON.stringify({ action: action }));
+            webapp.close();
+        }
+
+        // Mock data para el ejemplo
+        document.getElementById('tokens-count').innerText = "18.5k";
+    </script>
+</body>
+</html>
