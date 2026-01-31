@@ -120,7 +120,8 @@
         }
 
         function sendAction(action) {
-            webapp.sendData(JSON.stringify({ action: action }));
+            // Enviamos el comando de texto simple
+            webapp.sendData("/" + action); 
             webapp.close();
         }
 
